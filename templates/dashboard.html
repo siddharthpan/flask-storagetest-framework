@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>Dashboard</title>      <!-- import plugin script -->
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <link rel="stylesheet" href="static/css/fontawesome.min.css">
+        <style>
+			.chart-container {
+				width: auto;
+				height: auto;
+			}
+			canvas {
+            width: 100% !important;
+            max-width: 800px;
+            height: auto !important;
+}
+		</style>
+    </head>
+    <body>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/js/Chart.min.js"></script>
+    <script type="text/javascript" src="static/js/linegraph.js"></script>
+    <script type="text/javascript" src="static/js/linegraph2.js"></script>
+    <script type="text/javascript" src="static/js/linegraph3.js"></script>
+    <div class="navbar navbar-inverse">
+            <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                                <a class="navbar-brand" href="/dashboard"><span class="glyphicon glyphicon-play-circle"></span> Dashboard</a>
+                            </div>
+                            <div class="collapse navbar-collapse" id="mynavbar">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                                </ul>
+                            </div>
+            </div>
+        </div>
+
+             {% with messages = get_flashed_messages() %}
+               {% if messages %}
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+               {% endif %}
+            {% endwith %}
+
+        <div class="container">
+          <h2>Dashboard</h2>
+          <ul class="nav nav-tabs">
+            <li><a data-toggle="tab" href="#home">Home</a></li>
+            <li><a data-toggle="tab" href="#perftestcharts">Performance Charts</a>
+              <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" href="#sdcardcharts">SD-Card Charts</a> </li>
+                <li><a data-toggle="tab" href="#pendrivecharts">HP Flash Drive Charts</a> </li>
+                  <li><a data-toggle="tab" href="#androidcharts">Android Storage Charts</a> </li>
+              </ul>
+            </li>
+            <li><a data-toggle="tab" href="#statistics">Statistics</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              <h3>Home</h3>
+                <div class="container">
+                    <div class="jumbotron">
+                        <div class="container">
+                        <p>Use this tab to run the appropriate tests on your device.</p>
+                            <form class="form-inline" method="POST" action="{{ url_for('dashboard') }}">
+                                <div class="form-group align-baseline">
+                                    <label for="sel1">Select Registered Storage Controller</label>
+                                      <select name="controller" class="form-control" id="sel1">
+                                        <option value="rpi3">Raspberry Pi 3 ModelB</option>
+                                        <option value="android">Android Smartphone</option>
+                                      </select>
+                                </div>
+                                <div class="form-group align-baseline">
+                                    <label for="sel2">Select Target Storage Device</label>
+                                      <select name="target" class="form-control" id="sel2">
+                                        <option value="sdcard" >Sandisk SD Card (Class 10)</option>
+                                        <option value="pendrive">HP Flash Drive (Class 4)</option>
+                                        <option value="android">Lenovo K4 Note Storage</option>
+                                      </select>
+                                </div>
+                                <div class="form-group align-baseline">
+                                    <label for="sel3">Select Test to Run</label>
+                                      <select name="testtype" class="form-control" id="sel3">
+                                        <option value="perftest">Basic Performance Test</option>
+                                      </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Start Test</button>
+                            </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+              <div id="sdcardcharts" class="tab-pane fade">
+                <div class="chart-container">
+                    <canvas id="myChart1"></canvas>
+                    <canvas id="myChart2"></canvas>
+                </div>
+              </div>
+              <div id="pendrivecharts" class="tab-pane fade">
+                  <div class="chart-container">
+                    <canvas id="myChart3"></canvas>
+                    <canvas id="myChart4"></canvas>
+                </div>
+              </div>
+              <div id="androidcharts" class="tab-pane fade">
+                  <div class="chart-container">
+                    <canvas id="myChart5"></canvas>
+                    <canvas id="myChart6"></canvas>
+                </div>
+              </div>
+            <div id="statistics" class="tab-pane fade">
+              <h3>Statistics</h3>
+                <div class="container">
+                    <div class="jumbotron">
+                        <p>> Number of tests run on SD Card: <u>{{ testnumsd }}</u></p>
+                        <p>> Number of tests run on HP Flash Drive: <u>{{ testnumpd }}</u></p>
+                        <p>> Total Number of tests run: <u>{{ testnumtotal }}</u></p>
+                        <br>
+                        <p>--> <u>SanDisk SD Card</u> <--</p>
+                        <p>> Average read speed: <u>{{ avgrdspd1 }}</u> MBps</p>
+                        <p>> Average write speed: <u>{{ avgwrspd1 }}</u> MBps</p>
+                        <br>
+                        <p>--> <u>HP Flash Drive</u> <--</p>
+                        <p>> Average read speed: <u>{{ avgrdspd2 }}</u> MBps</p>
+                        <p>> Average write speed: <u>{{ avgwrspd2 }}</u> MBps</p>
+
+                        <form action="/dashboard" method="get">
+                            <button name="RefreshBtn" type="submit">Refresh Stats</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+
+    </body>
+</html>
+
+
+
+
+
+

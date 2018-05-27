@@ -1,0 +1,51 @@
+{% extends 'bootstrap/base.html' %}
+{#{% extends  '_navbar.html' %}#}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+
+{% block title %}
+    DCT Results
+{% endblock %}
+
+{% block navbar %}
+
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/">Huawei Logo</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="mynavbar">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="/dct">DTS - DCT</a></li>
+                            </ul>
+                        </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Results Page</h1>
+            <p>{{ text }}</p>
+            <div class="footer navbar-fixed-bottom navbar-right">
+                <footer>
+                  <p>&nbsp;&nbsp;&copy; Huawei Technologies India Pvt Ltd.</p>
+                </footer>
+        </div>
+    </div>
+
+{%  endblock %}

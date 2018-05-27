@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>Dashboard</title>      <!-- import plugin script -->
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <link rel="stylesheet" href="static/css/fontawesome.min.css">
+
+    </head>
+
+    <body>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/js/Chart.min.js"></script>
+    <script type="text/javascript" src="static/js/linegraph.js"></script>
+
+    <script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+
+    //let's create arrays
+    var  = [
+        {display: "Dark chocolate", value: "dark-chocolate" },
+        {display: "Milk chocolate", value: "milk-chocolate" },
+    var vegetables = [
+        {display: "Broccoli", value: "broccoli" },
+        {display: "Cabbage", value: "cabbage" },
+        {display: "Carrot", value: "carrot" },
+        {display: "Cauliflower", value: "cauliflower" }];
+
+    var icecreams = [
+        {display: "Frozen yogurt", value: "frozen-yogurt" },
+        {display: "Booza", value: "booza" },
+        {display: "Frozen yogurt", value: "frozen-yogurt" },
+        {display: "Ice milk", value: "ice-milk" }];
+
+    //If parent option is changed
+    $("#parent_selection").change(function() {
+            var parent = $(this).val(); //get option value from parent
+
+            switch(parent){ //using switch compare selected option and populate child
+                  case 'chocolates':
+                    list(chocolates);
+                    break;
+                  case 'vegetables':
+                    list(vegetables);
+                    break;
+                  case 'icecreams':
+                    list(icecreams);
+                    break;
+                default: //default child option is blank
+                    $("#child_selection").html('');
+                    break;
+               }
+    });
+
+    //function to populate child select box
+    function list(array_list)
+    {
+        $("#child_selection").html(""); //reset child options
+        $(array_list).each(function (i) { //populate child options
+            $("#child_selection").append("<option value=""+array_list[i].value+"">"+array_list[i].display+"</option>");
+        });
+    }
+
+    });
+    </script>
+
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="mynavbar">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                <li><a href="/register"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
+                            </ul>
+                        </div>
+        </div>
+    </div>
+
+     <div class="container">
+         {% with messages = get_flashed_messages() %}
+           {% if messages %}
+              {% for message in messages %}
+                 {{ message }}
+              {% endfor %}
+           {% endif %}
+        {% endwith %}
+        <div class="container">
+            <div class="jumbotron">
+                <h2>Storage Performance Test Portal</h2>
+                <p>Please Login/Sign-Up to access the test dashboard.</p>
+            </div>
+        </div>
+
+        <div class="footer navbar-fixed-bottom">
+            <footer>
+              <p>&nbsp;&nbsp;&copy; Siddharth Arun Panigrahi</p>
+            </footer>
+        </div>
+     </div>
+    </body>
+</html>

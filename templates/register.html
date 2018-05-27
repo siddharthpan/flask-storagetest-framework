@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <title>Dashboard</title>      <!-- import plugin script -->
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/fontawesome.min.css">
+
+</head>
+    <body>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/js/Chart.min.js"></script>
+    <script type="text/javascript" src="static/js/linegraph.js"></script>
+
+
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="mynavbar">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            </ul>
+                        </div>
+        </div>
+    </div>
+
+        <div class="container">
+            <div class="jumbotron">
+            <h4 style="font-size: 36px">Sign-Up</h4>
+            <br>
+            {% from "includes/_formhelpers.html" import render_field %}
+            <form method="post" action="/register">
+                <dl>
+                    {{render_field(form.username)}}
+                    {{render_field(form.email)}}
+                    {{render_field(form.password)}}
+                    {{render_field(form.confirm)}}
+                </dl>
+                <p><input type="submit" value="Register"></p>
+            </form>
+                {% if error %}
+                    <p class="error"><strong>Error:</strong>{{error}}</p>
+                {% endif %}
+            </div>
+    </div>
+    </body>
+</html>
